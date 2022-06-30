@@ -25,26 +25,26 @@ def reset_timer():
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
-
+    
 def start_timer():
     global reps
     reps += 1
 
-
+    
     work_sec = WORK_MIN * 60
     short_break_sec = SHORT_BREAK_MIN * 60
     long_break_sec = LONG_BREAK_MIN * 60
 
-    #if its the 1st/3rd/5th/7th
+    #Check if it's 8th for going to long break time
     if reps % 8 == 0:
         count_down(long_break_sec)
         name.config(text="Break", fg=RED)
 
-    #if its the 2nd/4th/6th/
+    #if its the 2nd/4th/6th for going to short break time
     elif reps % 2 == 0:
         count_down(short_break_sec)
         name.config(text="Break", fg=GREEN)
-    #if its 8th
+    #if odd number for going to work time
     else:
         count_down(work_sec)
         name.config(text="WORK TIME!", fg=YELLOW)
@@ -64,7 +64,8 @@ def count_down(count):
     canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
     if count > 0:
         global timer
-        timer = window.after(5, count_down, count - 1)
+        # timer set to 1s
+        timer = window.after(1000, count_down, count - 1)
     else:
         start_timer()
         if (reps % 2) == 0:
@@ -77,6 +78,7 @@ def count_down(count):
 window = Tk()
 window.title("TimeGress")
 window.config(padx=50, pady=50, bg=BEIDGE)
+
 
 canvas = Canvas(width=334 ,height=334, bg=BEIDGE, highlightthickness=0)
 image = PhotoImage(file="clock.png")
